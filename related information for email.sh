@@ -80,8 +80,8 @@ echo "发送反弹:"
 cat $maillog|grep "postfix"|grep "${numbers[i]}"|grep "status=bounced"|awk '{print $6}'|sed 's/://g'|sort -u
 }
 listallip
-#accesstimes
-#readmsgid
-#listallusers
-#timeandaddofuser
-#showmail
+accesstimes
+readmsgid
+listallusers
+timeandaddofuser
+showmail

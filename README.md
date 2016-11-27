@@ -1,2 +1,2 @@
 # email-tracer
-Zabbix tracer for ExtMail123
+Zabbix tracer for ExtMail

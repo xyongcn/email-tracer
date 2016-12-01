@@ -145,7 +145,7 @@ Alias  /extmail  /var/www/extsuite/extmail/html/
 ScriptAlias  /extman/cgi/  /var/www/extsuite/extman/cgi/
 Alias  /extman  /var/www/extsuite/extman/html/                #后台管理
 Alias  /phpmyadmin  /var/www/extsuite/phpmyadmin/
-# Suexec config
+\# Suexec config
 SuexecUserGroup vuser vgroup
 </VirtualHost>
 
@@ -188,7 +188,7 @@ cp mysql_virtual_sender_maps.cf /etc/postfix/
 配置main.cf:
 vi /etc/postfix/main.cf
 增加以下内容：              (    #extmail的虚拟用户邮箱   )
-# extmail config here
+\# extmail config here
 virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf
 virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_domains_maps.cf
 virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf

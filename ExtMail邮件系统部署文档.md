@@ -13,7 +13,7 @@ rpm -ivh python-iniparse-0.3.1-2.1.el6.noarch.rpm
 rpm -ivh yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
 rpm -ivh yum-3.2.27-14.el6.centos.noarch.rpm  
 rpm -ivh yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm  
-##4、更改yum源  #我们使用网易的CentOS镜像源  
+4、更改yum源  #我们使用网易的CentOS镜像源  
 cd /etc/yum.repos.d/  
 wget  http://mirrors.163.com/.help/CentOS6-Base-163.repo  
 vi CentOS6-Base-163.repo  #编辑文件  

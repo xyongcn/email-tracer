@@ -1,6 +1,6 @@
 ExtMail邮件系统搭建，此EXTMail邮件系统基于redhat6.5。
 由于redhat的yum在线更新是收费的，如果没有注册的话是不能使用的，因此首先使用网易的163镜像源。（为了使用createrepo）
-第一部分：配置YUM源
+#第一部分：配置YUM源
 1.删除原有的yum
  [root@mail /]# rpm -aq|grep yum|xargs rpm -e --nodeps  #删除
 2.下载新的yum安装包  #这里使用的是CentOS的yum源
@@ -18,7 +18,7 @@ cd /etc/yum.repos.d/
 wget  http://mirrors.163.com/.help/CentOS6-Base-163.repo
 vi CentOS6-Base-163.repo  #编辑文件
 把文件里面的$releasever全部替换为版本号，即6 最后保存。
-第二部分：使用EMOS1.6.ISO制作本地yum仓库
+#第二部分：使用EMOS1.6.ISO制作本地yum仓库
 [root@mail /]# mkdir /mos
 [root@mail /]# cd /mos
 [root@mail mos]# wget http://mirror.extmail.org/iso/emos/EMOS_1.6_x86_64.iso
@@ -36,7 +36,7 @@ enabled=1
 gpgcheck=0
 [root@mail mnt]# yum clean all
 [root@mail mnt]# yum list
-第三部分：安装所需软件
+#第三部分：安装所需软件
 [root@mail ~]# yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring php-mcrypt courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman
 cd /root
 
@@ -51,7 +51,7 @@ https://www.phpmyadmin.net/downloads/
 编辑config.inc.php 改下面这一行,字符串是任意的。
 $cfg['blowfish_secret'] = ‘skssiwksksie’; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
 注：skssiwksksie字符串是任意的
-第四部分：配置邮件系统的相关软件
+#第四部分：配置邮件系统的相关软件
 为了方便，下面所有的配置文件命令前的”[root@mail ~]#”全部省略了。
 1.配置Postfix（MTA邮件传输代理）
 cd /etc/postfix
@@ -64,16 +64,16 @@ vi /etc/postfix/main.cf
 mynetworks = 127.0.0.1
 myhostname = mail.extmail.org
 mydestination = $mynetworks $myhostname
-# banner
+\# banner
 mail_name = Postfix – by extmail.org
 smtpd_banner = $myhostname ESMTP $mail_name
-# response immediately
+\# response immediately
 smtpd_error_sleep_time = 0s
-# Message and return code control
+\# Message and return code control
 message_size_limit = 5242880
 mailbox_size_limit = 5242880
 show_user_unknown_table_name = no
-# Queue lifetime control
+\# Queue lifetime control
 bounce_queue_lifetime = 1d
 maximal_queue_lifetime = 1d
 2.配置courier-authlib（imap和maildrop的认证）
@@ -136,7 +136,7 @@ vi /etc/httpd/conf/httpd.conf
 定义虚拟主机的相关内容：
 在最后加上：
 NameVirtualHost *:80
-# VirtualHost for ExtMail Solution
+\# VirtualHost for ExtMail Solution
 <VirtualHost *:80>
 ServerName  mail.extmail.org
 DocumentRoot  /var/www/extsuite/extmail/html/              #web服务
@@ -252,7 +252,7 @@ quit
 Postfix的SMTP认证需要通过Cyrus-SASL，连接到authdaemon获取认证信息。
 vi /etc/postfix/main.cf
 增加如下内容：
-# smtpd related config
+\# smtpd related config
 smtpd_recipient_restrictions =
 permit_mynetworks,
 permit_sasl_authenticated,
@@ -262,7 +262,7 @@ reject_non_fqdn_recipient,
 reject_unauth_destination,
 reject_unauth_pipelining,
 reject_invalid_hostname,
-# SMTP sender login matching config
+\# SMTP sender login matching config
 smtpd_sender_restrictions =
 permit_mynetworks,
 reject_sender_login_mismatch,
@@ -271,7 +271,7 @@ reject_unauthenticated_sender_login_mismatch
 smtpd_sender_login_maps =
 mysql:/etc/postfix/mysql_virtual_sender_maps.cf,
 mysql:/etc/postfix/mysql_virtual_alias_maps.cf
-# SMTP AUTH config here
+\# SMTP AUTH config here
 broken_sasl_auth_clients = yes
 smtpd_sasl_auth_enable = yes
 smtpd_sasl_local_domain = $myhostname
@@ -314,7 +314,7 @@ ehlo localhost
 quit
 221 2.0.0 Bye
 Connection closed by foreign host.
-第五部分：设置服务开机启动，并进行邮件互发测试
+#第五部分：设置服务开机启动，并进行邮件互发测试
 chkconfig httpd on
 chkconfig mysqld on
 chkconfig postfix on

@@ -14,28 +14,28 @@ rpm -ivh yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
 rpm -ivh yum-3.2.27-14.el6.centos.noarch.rpm  
 rpm -ivh yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm
 ##4、更改yum源  #我们使用网易的CentOS镜像源
-cd /etc/yum.repos.d/
+cd /etc/yum.repos.d/  
 wget  http://mirrors.163.com/.help/CentOS6-Base-163.repo  
-vi CentOS6-Base-163.repo  #编辑文件
-把文件里面的$releasever全部替换为版本号，即6 最后保存。
+vi CentOS6-Base-163.repo  #编辑文件  
+把文件里面的$releasever全部替换为版本号，即6 最后保存。  
 #第二部分：使用EMOS1.6.ISO制作本地yum仓库
-[root@mail /]# mkdir /mos
-[root@mail /]# cd /mos
-[root@mail mos]# wget http://mirror.extmail.org/iso/emos/EMOS_1.6_x86_64.iso
-[root@mail mos]# yum install createrepo -y
-[root@mail mos]# mkdir /mnt/EMOS
-[root@mail mos]# mount -o loop /mos/EMOS_1.6_x86_64.iso /mnt/EMOS
-[root@mail mos]# cd /mnt/
-[root@mail mnt]# createrepo .
-[root@mail mnt]# vim /etc/yum.repos.d/EMOS-Base.repo
-加入以下内容：
-[EMOS]
-name=EMOS
-baseurl=file:///mnt/
-enabled=1
-gpgcheck=0
-[root@mail mnt]# yum clean all
-[root@mail mnt]# yum list
+[root@mail /]# mkdir /mos  
+[root@mail /]# cd /mos  
+[root@mail mos]# wget http://mirror.extmail.org/iso/emos/EMOS_1.6_x86_64.iso  
+[root@mail mos]# yum install createrepo -y  
+[root@mail mos]# mkdir /mnt/EMOS  
+[root@mail mos]# mount -o loop /mos/EMOS_1.6_x86_64.iso /mnt/EMOS  
+[root@mail mos]# cd /mnt/  
+[root@mail mnt]# createrepo .  
+[root@mail mnt]# vim /etc/yum.repos.d/EMOS-Base.repo  
+加入以下内容：  
+[EMOS]  
+name=EMOS  
+baseurl=file:///mnt/  
+enabled=1  
+gpgcheck=0  
+[root@mail mnt]# yum clean all  
+[root@mail mnt]# yum list  
 #第三部分：安装所需软件
 [root@mail ~]# yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring php-mcrypt courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman
 cd /root

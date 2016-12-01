@@ -111,7 +111,7 @@ chmod 755 /var/spool/authdaemon/
 service courier-authlib start
 如一切正常，命令行将返回如下信息：
 Starting Courier authentication services: authdaemond
-3.配置maildrop（MDA邮件投递代理）
+#3.配置maildrop（MDA邮件投递代理）
 注：在安装maildrop的时候，系统会自动创建vuser用户及vgroup用户组，专门用于邮件的存储，vuser:vgroup的uid/gid都是1000，这与一般的邮件文档中提及用postfix用户存邮件不一样。因为postfix用户的uid一般都低于500，而Suexec模块编译时对UID/GID的要求是要大于500，因此使用postfix用户不能满足要求。其次，如果用Maildrop作为投递代理（MDA），以postfix身份投递的话，会导致postfix MTA错误。
 vim /etc/postfix/master.cf
 注：为了使Postfix支持Maildrop，必须修改/etc/postfix/master.cf文件中的相应部分，改为：
@@ -130,7 +130,7 @@ Courier Authentication Library extension enabled.
 Maildir quota extension enabled.
 This program is distributed under the terms of the GNU General Public
 License. See COPYING for additional information.
-4.配置Apache（为邮件系统提供网页服务）
+#4.配置Apache（为邮件系统提供网页服务）
 保证phpmyadmin在/var/www/extsuite/下(mv ~/phpmyadmin /var/www/extsuite/)，在这里进行相应的配置
 vi /etc/httpd/conf/httpd.conf
 定义虚拟主机的相关内容：
@@ -154,7 +154,7 @@ SuexecUserGroup vuser vgroup
 Starting httpd: httpd: Could not reliably determine the server’s fully qualified domain name, using mail.extmail.rg for ServerName
 请把#ServerName www.example.com:80这个打开（去掉#），
 并重启service httpd restart
-5.配置Extmail（提供网页收发邮件服务）
+#5.配置Extmail（提供网页收发邮件服务）
 cd /var/www/extsuite/extmail
 cp webmail.cf.default webmail.cf
 vim webmail.cf
@@ -164,7 +164,7 @@ SYS_MYSQL_PASS = extmail
 SYS_MYSQL_DB = extmail
 更新cgi目录权限，由于SuEXEC的需要，必须将extmail的cgi目录修改成vuser:vgroup权限
 chown -R vuser:vgroup /var/www/extsuite/extmail/cgi/
-6.配置Extman（提供邮件网页后台管理功能）
+#6.配置Extman（提供邮件网页后台管理功能）
 更新cgi目录权限，由于SuEXEC的需要，必须将extman的cgi目录修改成vuser:vgroup权限
 chown -R vuser:vgroup /var/www/extsuite/extman/cgi/
 
@@ -218,7 +218,7 @@ ExtMan的默认超级管理员帐户：root@extmail.org，初始密码：extmail
 加入开机自启动：
 echo “/usr/local/mailgraph_ext/mailgraph-init start” >> /etc/rc.d/rc.local
 echo “/var/www/extsuite/extman/daemon/cmdserver -v -d” >> /etc/rc.d/rc.local
-7.配置Courier-imap(imap和pop3接收邮件代理)
+#7.配置Courier-imap(imap和pop3接收邮件代理)
 注：由于Courier-imap的IMAP目录是按UTF-7编码的，ExtMail目前还没有正式支持IMAP目录，因此需要屏蔽IMAP，只提供pop3服务。而就目前的使用情况来看，IMAP使用的非常少，绝大部分OutLook/Foxmail用户都习惯使用POP3而非IMAP。
 vi /usr/lib/courier-imap/etc/imapd
 修改如下：
@@ -246,7 +246,7 @@ list
 .
 quit
 +OK Bye-bye.
-8.配置cyrus-sasl（SMTP认证）
+#8.配置cyrus-sasl（SMTP认证）
 注：由于系统cyrus-sasl默认没有打开authdaemon的支持，为了使用集中认证的authlib，必须打开这个支持。为此我们必须删除系统的cyrus-sasl相关的所有软件包，替换成打开了authdaemon支持的sasl软件包（也就是EMOS中的软件包）。
 配置cyrus-sasl
 Postfix的SMTP认证需要通过Cyrus-SASL，连接到authdaemon获取认证信息。

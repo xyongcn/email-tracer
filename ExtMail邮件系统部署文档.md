@@ -1,19 +1,19 @@
 ExtMail邮件系统搭建，此EXTMail邮件系统基于redhat6.5。
 由于redhat的yum在线更新是收费的，如果没有注册的话是不能使用的，因此首先使用网易的163镜像源。（为了使用createrepo）
 #第一部分：配置YUM源
-1.删除原有的yum
+##1.删除原有的yum
  [root@mail /]# rpm -aq|grep yum|xargs rpm -e --nodeps  #删除
-2.下载新的yum安装包  #这里使用的是CentOS的yum源
+##2.下载新的yum安装包  #这里使用的是CentOS的yum源
 wget http://vault.centos.org/6.0/os/x86_64/Packages/python-iniparse-0.3.1-2.1.el6.noarch.rpm
 wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
 wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-3.2.27-14.el6.centos.noarch.rpm
 wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm
-3.安装yum软件包
+##3.安装yum软件包
 rpm -ivh python-iniparse-0.3.1-2.1.el6.noarch.rpm
 rpm -ivh yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
 rpm -ivh yum-3.2.27-14.el6.centos.noarch.rpm  
 rpm -ivh yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm
-4、更改yum源  #我们使用网易的CentOS镜像源
+##4、更改yum源  #我们使用网易的CentOS镜像源
 cd /etc/yum.repos.d/
 wget  http://mirrors.163.com/.help/CentOS6-Base-163.repo
 vi CentOS6-Base-163.repo  #编辑文件

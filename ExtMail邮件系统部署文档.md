@@ -39,8 +39,8 @@ gpgcheck=0
 #第三部分：安装所需软件  
 [root@mail ~]# yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring php-mcrypt courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman
 cd /root  
-安装phpmyadmin  
-到https://www.phpmyadmin.net/downloads/  下载phpMyAdmin-4.6.4-all-languages.tar.bz2   
+安装phpmyadmin  
+到https://www.phpmyadmin.net/downloads/ 下载phpMyAdmin-4.6.4-all-languages.tar.bz2   
 [root@mail ~]# tar jxvf phpMyAdmin-4.6.4-all-languages.tar.bz2  
 [root@mail ~]# mv phpMyAdmin-4.6.4-all-languages  /var/www/extsuite/phpmyadmin  
 [root@mail ~]# cd /var/www/extsuite/phpmyadmin  

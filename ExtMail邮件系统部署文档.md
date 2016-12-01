@@ -53,7 +53,7 @@ $cfg['blowfish_secret'] = ‘skssiwksksie’; /* YOU MUST FILL IN THIS FOR COOKI
 注：skssiwksksie字符串是任意的
 #第四部分：配置邮件系统的相关软件
 为了方便，下面所有的配置文件命令前的”[root@mail ~]#”全部省略了。
-1.配置Postfix（MTA邮件传输代理）
+#1.配置Postfix（MTA邮件传输代理）
 cd /etc/postfix
 cp main.cf main.cf.bak
 postconf -n > main1.cf
@@ -76,7 +76,7 @@ show_user_unknown_table_name = no
 \# Queue lifetime control
 bounce_queue_lifetime = 1d
 maximal_queue_lifetime = 1d
-2.配置courier-authlib（imap和maildrop的认证）
+#2.配置courier-authlib（imap和maildrop的认证）
 vi /etc/authlib/authmysqlrc
 并将其内容清空，然后增加如下内容:
 MYSQL_SERVER localhost

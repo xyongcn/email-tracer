@@ -60,7 +60,7 @@ postconf -n > main1.cf
 cp main1.cf main.cf
 vi /etc/postfix/main.cf
 增加如下内容：
-# hostname
+\# hostname
 mynetworks = 127.0.0.1
 myhostname = mail.extmail.org
 mydestination = $mynetworks $myhostname

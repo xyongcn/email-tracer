@@ -8,12 +8,12 @@ $sa_tag_level_deflt = -999;          #高于这个分数，就会在邮件头加
 $sa_tag2_level_deflt = 6.2;          #高于这个分数，允许改写邮件标题，加上\*\*\*SPAM\*\*\*标识  
 
 ##在/usr/sbin/amavisd中  
-邮件头：X-Virus-Scanned: amavisd-new at extmail.org，相对应的在amavisd中的设置：  
+邮件头：X-Virus-Scanned: amavisd-new at extmail.org，相对应的在amavisd中的设置:  
 $X_HEADER_LINE= "$myproduct_name at $mydomain"  if !defined $X_HEADER_LINE;  
 $X_HEADER_TAG = 'X-Virus-Scanned'               if !defined $X_HEADER_TAG;  
 
 #SpamAssassin分析：
-SpamAssassin (SA)是利用Perl来进行文字分析以达到过滤垃圾邮件之目的。它的判断方式是藉由评分方式－若这封邮件符合某种特征，则加以评分。若总得分高于某项标准，则判定为垃圾邮件。 
+SpamAssassin (SA)是利用Perl来进行文字分析以达到过滤垃圾邮件之目的。它的判断方式是藉由评分方式－若这封邮件符合某种特征，则加以评分。若总得分高于某项标准，则判定为垃圾邮件。  
 为了应用于高负载之服务器上，它也提供了spamc/spamd这组以Client/Server为架构之程式，如此可以有效降低SpamAssassin对系统资源的需求。还可以替而使用Amavisd-new来呼叫SpamAssassin，也就是让Amavisd-new肩负扫毒及过滤垃圾邮件的重责。这个方法比起使用spamc/spamd的做法快很多，所以采用这种作法。  
 1.关于规则：  
 Spamassassin支持自定义规则，官方提供的规则配置网址：http://spamassassin.apache.org/full/3.3.x/doc/Mail_SpamAssassin_Conf.html  
@@ -25,10 +25,7 @@ body    LOAN       /loan/
 score   LOAN       1000  
 describe   LOAN    This is LOAN  
 对应的Status报告：  
-X-Spam-Status: Yes, score=1003.285 tagged_above=-999 required=6.2  
-tests=[ALL_TRUSTED=-1, DNS_FROM_AHBL_RHSBL=2.438,  
-FROM_EXCESS_BASE64=0.105, HTML_MESSAGE=0.001,  
-HTML_MIME_NO_HTML_TAG=0.635, LOAN=1000, MIME_BASE64_BLANKS=0.001,MIME_HTML_ONLY=1.105] autolearn=spam  
+X-Spam-Status: Yes, score=1003.285 tagged_above=-999 required=6.2 tests=[ALL_TRUSTED=-1,DNS_FROM_AHBL_RHSBL=2.438,FROM_EXCESS_BASE64=0.105, HTML_MESSAGE=0.001,HTML_MIME_NO_HTML_TAG=0.635, LOAN=1000,MIME_BASE64_BLANKS=0.001,MIME_HTML_ONLY=1.105] autolearn=spam  
 2.SpamAssassin的学习系统：  
-sa-learn --rebuild -D -p user_prefs                            #建立学习系统
+sa-learn --rebuild -D -p user_prefs                            #建立学习系统  
 sa-learn --dump all                                            #可以查看自学习的数据信息

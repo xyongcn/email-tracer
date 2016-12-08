@@ -1,14 +1,14 @@
 #amavisd分析：
 amavisd-new 是一个介于 MTA 和邮件过滤软件之间的桥梁，其角色就像是两者之间的沟通者。 amavisd-new 在这里的作用主要是： 负责调用 SpamAssassin 对邮件内容进行过滤 。
-1.在/etc/amavisd/amavisd.conf中  
-amavisd 只有在以下两个条件同时满足的时候才会在邮件头中插入 'X-Spam-Status', 'X-Spam-Level' 等标记：  
+##在/etc/amavisd/amavisd.conf中  
+amavisd 只有在以下两个条件同时满足的时候才会在邮件头中插入 'X-Spam-Status', 'X-Spam-Level' 等标记：  
 1接收邮件的域名被列在 '@local_domains_maps' 参数中；  
 2邮件扫描的结果，分值（score）大于或等于 '$sa_tag_level_deflt' 中定义的分值时才会插入 'X-Spam-Status' 等标记;    
 $sa_tag_level_deflt = -999;          #高于这个分数，就会在邮件头加上标识（设置为-999 后，则可以在所有邮件中加标识）  
 $sa_tag2_level_deflt = 6.2;          #高于这个分数，允许改写邮件标题，加上\*\*\*SPAM\*\*\*标识  
 
-2.在/usr/sbin/amavisd中  
-邮件头：X-Virus-Scanned: amavisd-new at extmail.org，相对应的在amavisd中的设置：  
+##在/usr/sbin/amavisd中  
+邮件头：X-Virus-Scanned: amavisd-new at extmail.org，相对应的在amavisd中的设置：  
 $X_HEADER_LINE= "$myproduct_name at $mydomain"  if !defined $X_HEADER_LINE;  
 $X_HEADER_TAG = 'X-Virus-Scanned'               if !defined $X_HEADER_TAG;  
 

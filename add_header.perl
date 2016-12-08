@@ -31,10 +31,10 @@ if ($do_tag && $is_local) {
              $allowed_hdrs && $allowed_hdrs->{lc('X-Spam-Level')};  
         $hdr_edits->add_header('X-Spam-Status', $full_spam_status, 1)  
           if $allowed_hdrs && $allowed_hdrs->{lc('X-Spam-Status')};  
-        $hdr_edits->add_header('X-Type-What', 'meeting');  
-        $hdr_edits->add_header('Type-What', 'meeting');  
+        $hdr_edits->add_header('X-Type-What', 'meeting');  #X-可以加
+        $hdr_edits->add_header('Type-What', 'meeting');  #没有X-也可以加
       }  
-        $hdr_edits->add_header('What', 'meeting');  
+        $hdr_edits->add_header('What', 'meeting');  #直接加
 #可以任意增加邮件头？
 #X-Spam-Flag: YES  
 #X-Spam-Score: 7.847  

@@ -1,23 +1,12 @@
-ExtMail邮件系统搭建，此EXTMail邮件系统基于redhat6.5。
-由于redhat的yum在线更新是收费的，如果没有注册的话是不能使用的，因此首先使用网易的163镜像源。（为了使用createrepo）
-#第一部分：配置YUM源  
-1.删除原有的yum  
- [root@mail /]# rpm -aq|grep yum|xargs rpm -e --nodeps  #删除  
-2.下载新的yum安装包  #这里使用的是CentOS的yum源  
-wget http://vault.centos.org/6.0/os/x86_64/Packages/python-iniparse-0.3.1-2.1.el6.noarch.rpm  
-wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm  
-wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-3.2.27-14.el6.centos.noarch.rpm  
-wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm  
-3.安装yum软件包  
-rpm -ivh python-iniparse-0.3.1-2.1.el6.noarch.rpm
-rpm -ivh yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
-rpm -ivh yum-3.2.27-14.el6.centos.noarch.rpm  
-rpm -ivh yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm  
-4、更改yum源  #我们使用网易的CentOS镜像源  
+ExtMail邮件系统搭建，此EXTMail邮件系统基于CentOS6.8-64位。
+#第一部分：配置YUM源   
+#我们使用网易的CentOS镜像源  
 cd /etc/yum.repos.d/  
+mv CentOS-Base.repo CentOS-Base.repo.backup  
 wget  http://mirrors.163.com/.help/CentOS6-Base-163.repo  
-vi CentOS6-Base-163.repo  #编辑文件  
-把文件里面的$releasever全部替换为版本号，即6 最后保存。  
+yum clean all  
+yum makecache  
+yum list  
 #第二部分：使用EMOS1.6.ISO制作本地yum仓库
 [root@mail /]# mkdir /mos  
 [root@mail /]# cd /mos  
@@ -37,10 +26,12 @@ gpgcheck=0
 [root@mail mnt]# yum clean all  
 [root@mail mnt]# yum list  
 #第三部分：安装所需软件  
-[root@mail ~]# yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring php-mcrypt courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman
-cd /root  
+[root@mail ~]# yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman  
+yum install -y epel-release  
+yum install -y php-mcrypt  
+cd /root   
 安装phpmyadmin  
-到https://www.phpmyadmin.net/downloads/ 下载phpMyAdmin-4.6.4-all-languages.tar.bz2   
+到https://www.phpmyadmin.net/downloads/ 下载phpMyAdmin-4.6.4-all-languages.tar.bz2     
 [root@mail ~]# tar jxvf phpMyAdmin-4.6.4-all-languages.tar.bz2  
 [root@mail ~]# mv phpMyAdmin-4.6.4-all-languages  /var/www/extsuite/phpmyadmin  
 [root@mail ~]# cd /var/www/extsuite/phpmyadmin  
@@ -167,9 +158,9 @@ chown -R vuser:vgroup /var/www/extsuite/extmail/cgi/
 chown -R vuser:vgroup /var/www/extsuite/extman/cgi/  
 
 链接基本库到Extmail  
-mkdir /tmp/extman  
-chown -R vuser:vgroup /tmp/extman  
-
+mkdir -p /var/www/extsuite/tmp/extman    
+chown -R vuser:vgroup /var/www/extsuite/tmp/extman      
+改第18行，SYS_SESS_DIR = /var/www/extsuite/tmp/extman  
 数据库初始化  
 service mysqld start  
 导入mysql数据库结构及初始化数据（如果前面没有更改mysql密码的话，root密码默认为空）  

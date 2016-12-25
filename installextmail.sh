@@ -2,19 +2,9 @@
 #extmail 登录网址http://IP/extmail/cgi/index.cgi  
 install163yum()   #安装163yum
 {
-rpm -aq|grep yum|xargs rpm -e --nodeps
-rpm --import /etc/pki/rpm-gpg/RPM*  
-wget http://vault.centos.org/6.0/os/x86_64/Packages/python-iniparse-0.3.1-2.1.el6.noarch.rpm
-wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
-wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-3.2.27-14.el6.centos.noarch.rpm
-wget http://vault.centos.org/6.0/os/x86_64/Packages/yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm
-rpm -ivh python-iniparse-0.3.1-2.1.el6.noarch.rpm
-rpm -ivh yum-metadata-parser-1.1.2-14.1.el6.x86_64.rpm
-rpm -ivh yum-3.2.27-14.el6.centos.noarch.rpm yum-plugin-fastestmirror-1.1.26-11.el6.noarch.rpm
 cd /etc/yum.repos.d/
+mv CentOS-Base.repo CentOS-Base.repo.backup
 wget http://mirrors.163.com/.help/CentOS6-Base-163.repo
-sed -i 's/$releasever/6/g' CentOS6-Base-163.repo
-rm -rf packagekit-media.repo 
 yum clean all
 yum makecache
 yum list
@@ -41,8 +31,10 @@ yum -y install telnet
 }
 CleanAndInstallSoftwares()
 {
-yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring php-mcrypt courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman
+yum install -y httpd postfix mysql mysql-server php php-mysql php-mbstring courier-authlib courier-authlib-mysql courier-imap maildrop cyrus-sasl cyrus-sasl-lib cyrus-sasl-plain cyrus-sasl-devel extsuite-webmail extsuite-webman
 cd /root
+yum install -y epel-release
+yum install -y php-mcrypt
 wget https://files.phpmyadmin.net/phpMyAdmin/4.6.4/phpMyAdmin-4.6.4-all-languages.tar.bz2 --no-check-certificate 
 tar jxvf phpMyAdmin-4.6.4-all-languages.tar.bz2
 mv phpMyAdmin-4.6.4-all-languages  /var/www/extsuite/phpmyadmin
@@ -105,8 +97,9 @@ chown -R vuser:vgroup /var/www/extsuite/extmail/cgi/
 ConfigExtman()
 {
 chown -R vuser:vgroup /var/www/extsuite/extman/cgi/
-mkdir /tmp/extman
-chown -R vuser:vgroup /tmp/extman
+mkdir -p /var/www/extsuite/tmp/extman
+chown -R vuser:vgroup /var/www/extsuite/tmp/extman
+sed -i "18c SYS_SESS_DIR = /var/www/extsuite/tmp/extman" /var/www/extsuite/extman/webman.cf
 service mysqld start 
 mysql -u root -p < /var/www/extsuite/extman/docs/extmail.sql
 mysql -u root -p < /var/www/extsuite/extman/docs/init.sql
